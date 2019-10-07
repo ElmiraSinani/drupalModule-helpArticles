@@ -1,0 +1,6 @@
+name = Help Articles
+description = Get nodes by content_type
+package = Services
+core = 7.x
+dependencies[] = services
+

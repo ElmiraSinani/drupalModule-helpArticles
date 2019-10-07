@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Implements hook_permission().
+ */
+function services_help_articles_permission() {
+  return array(
+    "services retrieve content_type" => array(
+      'title' => t('Get nodes by content type'),
+    ),
+	
+  );
+}
+
+/**
+ * Implements hook_services_resources().
+ */
+function services_help_articles_services_resources() {
+
+  return array(
+    'help' => array(
+      'retrieve' => array(
+        'help' => 'Retrieves a nodes',
+        'file' => array(
+          'type' => 'inc',
+          'module' => 'services_help_articles',
+          'name' => 'services_help_articles.resource'
+        ),
+        'callback' => '_services_help_articles_retrieve',
+        'access callback' => '_services_help_articles_access',
+        'access arguments' => array('view'),
+        'access arguments append' => TRUE,
+        'args' => array(
+          array(
+            'name' => 'content_type',
+            'type' => 'string',
+            'description' => 'The name of the content type to get',
+            'source' => array('path' => '0'),
+            'optional' => FALSE,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+
+function _services_help_articles_access($op = 'view', $args = array()) {
+
+	$access = FALSE;
+
+	switch ($op) {
+    case 'view':
+      $access = user_access("services retrieve content_type");
+      break;
+  }
+  
+  return $access;
+}
